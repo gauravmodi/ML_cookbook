@@ -1,0 +1,25 @@
+/* ORDER BY doesn't work with UNION, to use you can use limit
+Check this link
+https://stackoverflow.com/questions/8685168/mysql-order-by-with-union-doesnt-seem-to-work
+*/ 
+(SELECT CONCAT(o.Name, "(", LEFT(o.Occupation, 1), ")") AS name_p
+  FROM OCCUPATIONS AS o
+ ORDER BY o.Name
+ LIMIT 1000000000000000)
+UNION ALL
+(SELECT CONCAT("There are a total of ", COUNT(o1.Name), " ", LOWER(o1.Occupation), "s.") AS job_count
+   FROM OCCUPATIONS AS o1
+  GROUP BY o1.Occupation
+  ORDER BY COUNT(o1.Name)
+  LIMIT 10000000000000000);
+
+-- Occupations
+/*
+Enter your query here.Doctor, Professor, Singer or Actor.
+*/
+SELECT (CASE WHEN OCCUPATION = "Doctor" THEN NAME END) AS Doctor, 
+       (CASE WHEN OCCUPATION = "Professor" THEN NAME END) AS Professor,
+       (CASE OCCUPATION WHEN "Singer" THEN NAME END) AS Singer,
+       (CASE OCCUPATION WHEN "Actor" THEN NAME END) AS Actor
+  FROM OCCUPATIONS
+ ORDER BY Doctor DESC;

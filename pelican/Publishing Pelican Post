@@ -1,0 +1,28 @@
+
+# -------------------------------------------------------------------------------
+## Main directory: gauravmodi.github.io
+# To publish LOCALLY
+# then do this from main directory
+pelican content --debug --autoreload  --output output --settings pelicanconf.py
+
+cd output
+python -m pelican.server
+
+# Go to: http://localhost:8000/
+# Ctrl + C to close server
+# this is all in local.
+
+
+# TO PUBLISH ONLINE
+pelican content --output output --settings publishconf.py
+
+# from output folder
+git add .
+git commit -m "Commit message"
+git push origin master --force
+
+
+# to push source code
+git add .
+git commit -m "Commit message"
+git push origin source

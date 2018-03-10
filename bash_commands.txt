@@ -1,0 +1,83 @@
+# SOURCE https://www.datacamp.com/community/tutorials/shell-commands-data-scientist
+
+## Number of lines in file
+wc -l filename.txt
+
+## Number of words in a file
+wc -w filename.txt
+
+## Number of files in a folder
+ls -l | wc -l
+
+## Display top 2 lines of a file
+head -n 2 filename.txt
+
+## Display last two rows of a file
+tail -n 2 filename.txt
+
+## Extracting line from 101 to 120
+# NOTE: new file will not contain header rows, refer next two queries
+head -n 120 adult.csv | tail -n 20 > adult_sample.csv
+
+## Insert a line in a file
+echo "column1, column2, column3" > header.csv
+
+## Concate two files in two 
+cat header.csv adult.data > adult.csv #inserting a header row adult.data file
+	
+## Regular expression
+grep 'regex' filename 
+# For e.g.
+grep ", ?," adult.csv | wc -l # Checking in file number of lines with at least one '?' symbol
+
+## Replace a string with different string in bash
+sed "s/<string to replace>/<string to replace it with>/g" source_filename > target_filename
+# For e.g.
+sed "s/, ?,/,,/g" adult.csv >  adult.csv
+
+## Unique Values
+# uniq -c: which adds the repetition count to each line;
+# uniq -d: which only outputs duplicate lines; And
+# uniq -u: which only outputs unique lines
+# For checking unique values
+sort adult.csv | uniq -d | wc -l
+
+# For showing top 3 repeated lines with count
+# sort -r is for reverse sort
+sort adult.csv | uniq -c | sort -r | head -n 3
+
+## Selecting columns with cut
+cut -d delimiter -f column_number filename
+cut -d "," -f 2 adult.csv | head -3
+
+## Looping
+while true; do
+    _do something_ ;
+done
+
+# To replace space in filenames to underscore
+replace_source=' '
+replace_target='_'
+for filename in ./*.csv; do
+    new_filename=${filename//$replace_source/$replace_target}
+    mv "$filename" "$new_filename"
+done
+
+## Variables
+filename= 'file-1'
+new_filename = 'file_1'
+echo $filename
+
+# To use variables in commands 
+mv "$filename" "$new_filename"
+
+# query for opening a csv and replace a column value with some other and 
+# save it into a new Excel.
+# "," : seperator
+# FNR > 1: skip first row
+# $2: row number
+# print ; : print all columns
+awk -F ","  'FNR > 1 {$2=0; print ;}' fortune500.csv > new503.csv
+
+# Take just one column and save it in new csv
+awk -F "," '{print $1}' fortune500.csv > new502.csv

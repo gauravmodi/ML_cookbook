@@ -1,0 +1,16 @@
+Resource: 
+https://www.sqlshack.com/use-window-functions-sql-server/
+
+
+- If using WHERE should come before GROUP BY
+- If want to include column in SELECT while doing GROUP BY, include that column
+GROUP BY
+- when comparing the execution plan of UNION ALL and UNION it is also quite clear that UNION ALL is way less expensive than UNION as it does not have DISTINCT SORT operation
+- When using sub-query in FROM always give name to the sub query table
+
+- While connecting two queries with UNION or UNION ALL make sure if you need duplicate values from two queries or not. UNION ALL will keep duplicate values and UNION will only keep distinct values.
+
+
+- Don't use double quotes in sql, otherwise it will think that it's a column
+
+- Use LEFT JOIN explitcitly.
