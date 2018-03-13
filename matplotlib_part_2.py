@@ -83,3 +83,13 @@ def boxplot(x_data, y_data, base_color="#539caf", median_color="#297083", x_labe
     ax.set_ylabel(y_label)
     ax.set_xlabel(x_label)
     ax.set_title(title)
+
+# Time series plot
+def time_plot(x, y, xlabel='', ylabel='', title=''):
+	plt.figure(figsize=(10, 8))
+	plt.plot(cars['Date'], cars['gm_cap'], 'b-', label = 'GM')
+	plt.plot(cars['Date'], cars['tesla_cap'], 'r-', label = 'TESLA')
+	plt.xlabel('Date'); 
+	plt.ylabel('Market Cap (Billions $)'); 
+	plt.title('Market Cap of GM and Tesla')
+	plt.legend();

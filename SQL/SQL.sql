@@ -1,4 +1,4 @@
--- SQL Practice 1
+  -- SQL Practice 1
 
 COUNT(*) returns the number of items in a group. This includes NULL values and duplicates.
 
@@ -7,33 +7,33 @@ COUNT(ALL expression) evaluates expression for each row in a group and returns t
 COUNT(DISTINCT expression) evaluates expression for each row in a group and returns the number of unique, nonnull values.
 
 -- -----------------------------------------------------------------------------
-SELECT	M.senderid, (DATEDIFF(MAX(M.messagedt), MIN(M.messagedt)) + 1) AS tenure
-  FROM	messages AS M
+SELECT  M.senderid, (DATEDIFF(MAX(M.messagedt), MIN(M.messagedt)) + 1) AS tenure
+  FROM  messages AS M
   JOIN  (SELECT name, email, personid FROM people WHERE email LIKE '%enron%') AS P
-    ON	P.personid = M.senderid
- WHERE	(Year(M.messagedt) BETWEEN 1985 AND 2007)
-   AND	P.email NOT LIKE 'no.address%'
+    ON  P.personid = M.senderid
+ WHERE  (Year(M.messagedt) BETWEEN 1985 AND 2007)
+   AND  P.email NOT LIKE 'no.address%'
 GROUP BY M.senderid 
 ORDER BY tenure DESC
- LIMIT 	3;
+ LIMIT  3;
 
 -- -----------------------------------------------------------------------------
 -- 13 a) Using Sub-query
-SELECT	E.employeeNumber,
-		E.lastName,
-		E.firstName
-  FROM	employees AS E
- WHERE	E.employeeNumber IN (SELECT	DISTINCT C.salesRepEmployeeNumber
-							   FROM	customers AS C
-							  WHERE C.state = 'CA');
+SELECT  E.employeeNumber,
+    E.lastName,
+    E.firstName
+  FROM  employees AS E
+ WHERE  E.employeeNumber IN (SELECT DISTINCT C.salesRepEmployeeNumber
+                 FROM customers AS C
+                WHERE C.state = 'CA');
 
 -- 13 b) Using Join
-SELECT	DISTINCT E.employeeNumber,
-		E.lastName,
-		E.firstName
-  FROM	customers AS C
+SELECT  DISTINCT E.employeeNumber,
+    E.lastName,
+    E.firstName
+  FROM  customers AS C
 LEFT JOIN employees AS E ON C.salesRepEmployeeNumber = E.employeeNumber
- WHERE	C.state = 'CA';
+ WHERE  C.state = 'CA';
 
 
 -- Window Function

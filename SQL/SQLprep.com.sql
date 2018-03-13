@@ -130,6 +130,45 @@ ON c.customerNumber = o.customerNumber
 GROUP BY customerName
 
 -- #8
+WITH 
+    employee_order_count AS (SELECT e.employeeNumber, 
+                                    e.officeCode,
+                                    COUNT(o.orderNumber) AS total_orders
+                               FROM employees AS e
+                               LEFT JOIN customers AS c
+                                 ON e.employeeNumber = c.salesRepEmployeeNumber
+                               LEFT JOIN orders AS o
+                                 ON c.customerNumber = o.customerNumber
+                              GROUP BY e.employeeNumber, e.officeCode)
+
+SELECT ofc.city,
+       AVG(eoc.total_orders) AS avg_orders
+  FROM employee_order_count AS eoc
+  JOIN offices AS ofc
+    ON eoc.officeCode = ofc.officeCode
+ GROUP BY ofc.city;
+
+
+
+-- #12
+SELECT TOP 5
+       (e.firstName+' '+e.lastName) AS employee_name,
+       c.customerName AS customer_name,
+       o.orderNumber AS orderNumber,
+       SUM(od.quantityOrdered*od.priceEach) AS order_subtotal,
+       o.status
+  FROM orders AS o
+  JOIN orderdetails AS od
+    ON o.orderNumber = od.orderNumber
+  JOIN customers AS c
+    ON o.customerNumber = c.customerNumber
+  JOIN employees AS e
+    ON c.salesRepEmployeeNumber = e.employeeNumber
+ WHERE o.status != 'Shipped'
+ GROUP BY (e.firstName+' '+e.lastName), c.customerName, o.orderNumber, o.status 
+ ORDER BY SUM(od.quantityOrdered*od.priceEach) DESC;
+
+
 
 -- #19 (GOOD)
 WITH 
@@ -168,7 +207,7 @@ SELECT c.customerName,
 
 -- #22
 SELECT p.productVendor,
-	   SUM(p.quantityInStock) AS total_quantity
+     SUM(p.quantityInStock) AS total_quantity
   FROM products AS p
  GROUP BY p.productVendor
  ORDER BY total_quantity DESC;
@@ -188,8 +227,8 @@ SELECT *,
      GROUP BY o.customerNumber, o.orderDate
     UNION
     SELECT p.customerNumber,
-    	   p.paymentDate,
-    	   p.amount
+         p.paymentDate,
+         p.amount
       FROM payments AS p
      WHERE p.customerNumber = 363)
 AS a;
@@ -199,10 +238,9 @@ SELECT *,
        SUM(subTotal) OVER(ORDER BY Transaction_date) AS Total,
        LEAD(Transaction_date,1) OVER(ORDER BY Transaction_date) next_order_date,
        RANK() OVER(PARTITION BY YEAR(Transaction_date) ORDER BY subTotal DESC) AS Rank_1
-  FROM (
-    SELECT o.customerNumber AS CustNum,
-           o.orderDate AS Transaction_date,
-           -1*SUM(od.quantityOrdered*od.priceEach) AS subTotal
+  FROM (SELECT o.customerNumber AS CustNum,
+               o.orderDate AS Transaction_date,
+               -1*SUM(od.quantityOrdered*od.priceEach) AS subTotal
       FROM orderdetails AS od
       JOIN orders AS o
         ON od.orderNumber = o.orderNumber
@@ -210,8 +248,8 @@ SELECT *,
      GROUP BY o.customerNumber, o.orderDate
     UNION
     SELECT p.customerNumber,
-    	   p.paymentDate,
-    	   p.amount
+         p.paymentDate,
+         p.amount
       FROM payments AS p
      WHERE p.customerNumber = 363) AS a;
 
@@ -332,7 +370,7 @@ SELECT od.orderNumber
 
 SELECT o.comments
   FROM orders AS o
- WHERE o.comments IS NOT NULL	
+ WHERE o.comments IS NOT NULL 
 
 -- # 33
 SELECT *
