@@ -1,0 +1,72 @@
+Links:
+1. ipynb to html: https://github.com/textbook/textbook.github.io-source
+2. Another pluginf or it: https://github.com/danielfrg/pelican-ipynb
+3. https://spapas.github.io/2013/10/07/pelican-static-windows/#modifying-pelican-tools-for-windows
+
+# Creating python 3 virtual env
+https://www.digitalocean.Allows override of the name of the links widget. If not specified, defaults to “linkcom/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-ubuntu-16-04
+
+pip install jupyter
+
+# ---------------------------------------------------------------------------------------------------
+# Requirements
+jupyter --version
+4.4.0
+
+ipython --version
+6.2.1
+
+nbconvert --version
+No command 'nbconvert' found, did you mean:
+ Command 'nxconvert' from package 'nexus-tools' (universe)
+nbconvert: command not found
+
+pelican --version
+3.7.1
+
+python --version
+Python 3.5.2
+
+# ---------------------------------------------------------------------------------------------------
+# git init in gauravmodi.github.io folder
+# first creat .gitignore write 'output' to ignore this folder in version control.
+touch .gitignore
+gedit .gitignore # add output word in this file
+
+git init
+git add .
+git commit -m Initial
+
+# in content folder create plugins and themes folder
+mkdir plugins
+mkdir themes
+
+# cd to content download this plugin 
+git submodule add https://github.com/peijunz/ipynb2pelican.git plugins/ipynb2pelican
+
+# themes, git a pelican folder and only copy required theme
+git clone https://github.com/getpelican/pelican-themes.git
+cp -r pelican-themes/pelican-bootstrap3 gauravmodi.github.io/themes
+
+# plugins git at pelican folder and only copy required plugin
+git clone https://github.com/getpelican/pelican-plugins.git
+cp -r pelican-plugins/i18n_subsites gauravmodi.github.io/plugins/
+cp -r pelican-plugins/tipue_search/ gauravmodi.github.io/plugins/
+
+# ---------------------------------------------------------------------------------------------------
+# install sublime and add a shortcut to open from terminal
+sudo ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublime_text
+
+
+#==================================================================================================
+#==================================================================================================
+pelican content --debug --autoreload  --output output --settings pelicanconf.py
+cd output
+python -m pelican.server
+
+python -m http.server 8888 --bind 127.0.0.5
+
+
+git remote add origin https://github.com/gauravmodi/gauravmodi.github.io.git
+
+

@@ -44,6 +44,8 @@ plt.xlim([1990, 2010])
 plt.ylim([0, 50])
 # Set the x-axis and y-axis limits AT ONCE
 plt.axis([1990, 2010, 0, 50])
+# Angle of xticks
+plt.xticks(rotation=45);
 
 #-------------------------------------------------------------------------------
 ## Definition of tick_val and tick_lab
@@ -127,5 +129,13 @@ plt.tight_layout()
 #===============================================================================
 # Save the image as 'xlim_and_ylim.png'
 plt.savefig('xlim_and_ylim.png')
-
+# Annotate a text for maximum value
+# Creating a histogram table in numpy
+hist_series = np.histogram(df.AmountInUSD[df.AmountInUSD< 10**6].dropna(), bins=50)
+x_value = hist_series[1][np.argmax(hist_series[0])]
+y_value = hist_series[0][np.argmax(hist_series[0])]
+# Drawing histogram using function and annotate max value we got from numpy histogram table
+ax = histogram(df.AmountInUSD, upper=10**6, hist=True, kde=False, bins=50)
+ax.annotate(x_value, xy=(x_value, y_value), xytext=(700000, 80),
+            arrowprops=dict(facecolor='black', shrink=0.05));
 

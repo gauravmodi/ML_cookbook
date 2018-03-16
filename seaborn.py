@@ -1,3 +1,5 @@
+color = sns.color_palette()
+
 #==================================Seaborn======================================
 ## Scatter plot
 sns.lmplot(x="amount_sum", y="count_sum", data=df, 

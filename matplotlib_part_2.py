@@ -1,3 +1,5 @@
+color = sns.color_palette()
+
 ## 2D histogram
 # Generate a 2-D histogram
 plt.hist2d(x, y, bins=(20, 20), range=((40, 235),(8, 48)))
@@ -9,6 +11,35 @@ plt.colorbar()
 # Gridsize is little complicate thing
 # Extent is x and y axis ticks limits 
 plt.hexbin(x, y, gridsize=(15,12), extent=((40, 235,8, 48)))
+
+
+def histogram(x, bins=None, hist=False, kde=True, color='r', xlabel=None, ylabel='', title='', lower=-1*np.inf, upper=np.inf, figsize=(8, 5)):
+    plt.subplots(figsize=figsize)
+    sns.distplot(x.dropna()[(x > lower) & (x < upper)], bins=bins,
+                 hist=hist, kde=kde, 
+                 kde_kws={"shade": True}, 
+                 color=color, axlabel=xlabel)
+    plt.title(title)
+    plt.ylabel(ylabel)
+
+# Return axes
+def histogram(x, bins=None, hist=False, kde=True, color='r', xlabel=None, ylabel='', title='', lower=-1*np.inf, upper=np.inf, figsize=(8, 5)):
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.distplot(x.dropna()[(x > lower) & (x < upper)], bins=bins,
+                 hist=hist, kde=kde, 
+                 kde_kws={"shade": True}, 
+                 color=color, axlabel=xlabel, )
+    plt.title(title)
+    plt.ylabel(ylabel)
+    return ax
+
+def barplot(x_data, y_data, figsize=(8, 5), x_label="", y_label="", title=""):
+    _, ax = plt.subplots(figsize=figsize)
+    # Draw bars, position them in the center of the tick mark on the x-axis
+    ax.bar(x_data, y_data, color = '#539caf', align = 'center',)
+    ax.set_ylabel(y_label)
+    ax.set_xlabel(x_label)
+    ax.set_title(title)
 
 
 def scatterplot(x_data, y_data, x_label="", y_label="", title="", color = "r", yscale_log=False):
@@ -41,24 +72,7 @@ def lineplot(x_data, y_data, x_label="", y_label="", title=""):
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
 
-def histogram(data, n_bins, cumulative=False, x_label = "", y_label = "", title = ""):
-    _, ax = plt.subplots()
-    ax.hist(data, n_bins = n_bins, cumulative = cumulative, color = '#539caf')
-    ax.set_ylabel(y_label)
-    ax.set_xlabel(x_label)
-    ax.set_title(title)
 
-
-def barplot(x_data, y_data, error_data, x_label="", y_label="", title=""):
-    _, ax = plt.subplots()
-    # Draw bars, position them in the center of the tick mark on the x-axis
-    ax.bar(x_data, y_data, color = '#539caf', align = 'center')
-    # Draw error bars to show standard deviation, set ls to 'none'
-    # to remove line between points
-    ax.errorbar(x_data, y_data, yerr = error_data, color = '#297083', ls = 'none', lw = 2, capthick = 2)
-    ax.set_ylabel(y_label)
-    ax.set_xlabel(x_label)
-    ax.set_title(title)
 
 
 def boxplot(x_data, y_data, base_color="#539caf", median_color="#297083", x_label="", y_label="", title=""):

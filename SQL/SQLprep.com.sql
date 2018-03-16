@@ -385,6 +385,36 @@ SELECT Name
   FROM country) ctry
 WHERE lifeRank = 1;
 
+-- #43
+WITH 
+    cte1 AS(SELECT RANK() OVER(PARTITION BY Continent ORDER BY c.SurfaceArea DESC) AS AreaRank, 
+                   *
+              FROM country AS c)
+SELECT * 
+  FROM cte1
+ WHERE AreaRank IN (1, 2, 3)  
+
+-- #44
+WITH 
+countryRank AS (SELECT c1.Name, c1.Continent,
+                       RANK() OVER(PARTITION BY c1.Continent ORDER BY c1.Population DESC) AS AreaRank
+                  FROM country AS c1),
+cityRank AS (SELECT c2.Name, ct.ID, 
+                    RANK() OVER(PARTITION BY c2.Name ORDER BY ct.Population DESC) AS PopRank
+               FROM country AS c2
+               JOIN city AS ct ON c2.Code = ct.CountryCode
+               WHERE c2.Name IN (SELECT Name FROM countryRank WHERE AreaRank < 4))
+SELECT PopRank, 
+       ct1.Name, 
+       ct1.Population, 
+       cr.AreaRank, 
+       cr.Name,
+       cr.Continent
+  FROM cityRank AS ctr
+  JOIN city AS ct1 ON ctr.ID = ct1.ID
+  JOIN countryRank AS cr ON cr.Name = ctr.Name
+ WHERE ctr.PopRank < 4;
+
 -- # 86
 SELECT p1.payment_id AS paymentId
   FROM payment AS p1
