@@ -55,3 +55,31 @@ function(...) OVER (
 -- SELECT clause
 -- ORDER BY clause
 -- There are exceptions though: MySQL and Postgres seem to have additional smartness that allows it.
+
+
+SELECT player_name,
+       weight,
+       CASE WHEN weight > 250 THEN 'over 250'
+            WHEN weight > 200 THEN '201-250'
+            WHEN weight > 175 THEN '176-200'
+            ELSE '175 or under' END AS weight_group
+  FROM benn.college_football_players
+
+SELECT player_name,
+       weight,
+       CASE WHEN weight > 250 THEN 'over 250'
+            WHEN weight > 200 AND weight <= 250 THEN '201-250'
+            WHEN weight > 175 AND weight <= 200 THEN '176-200'
+            ELSE '175 or under' END AS weight_group
+  FROM benn.college_football_players;
+
+WITH 
+  iphone1 (SELECT userid, date
+            FROM iphone
+           GROUP BY DATE_TRUNC('day', date), userid),
+  web1    (SELECT userid, date
+            FROM web
+           GROUP BY DATE_TRUNC('day', date), userid)
+SELECT COUNT(*) --i.userid, i.date, w.user, w.date
+  FROM iphone1 AS i
+  JOIN web1 AS w1 ON (i.userid = w.userid AND i.date = w.date)

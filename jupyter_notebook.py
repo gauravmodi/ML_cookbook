@@ -40,4 +40,6 @@ def over_10M(value):
 df.style.applymap(over_10M, subset=['AmountInUSD'])\
 		.format({'AmountInUSD': "$ {:}"})
 #-------------------------------------------------------------------------------
-
+# Tableau like drag and drop
+from pivottablejs import pivot_ui
+pivot_ui(df)
