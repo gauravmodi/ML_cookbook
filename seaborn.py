@@ -71,3 +71,28 @@ sns.heatmap(cov_matrix)
 
 color = sns.color_palette()
 sns.set_style('darkgrid')
+
+# horizontal Plot
+def horizontal_barplot(df_column, top_n=None, figsize=(20, 6), bar_color=None, 
+                       suptitle='', suptitle_size=18, title='', title_size=18, 
+                       xlabel='', ylabel='', xlabel_size=18, ylabel_size=18, 
+                       xticks_size=14, yticks_size=14, 
+                       text_offset=0, bar_text_size=20, bar_text_color='black' ):
+    
+    plt.figure(figsize=figsize)
+    count = df_column.value_counts()
+    top_count = count[:top_n]
+
+    sns.barplot(x=top_count.values, y=top_count.index, orient='h', palette=color)
+
+    plt.suptitle(suptitle, size=suptitle_size, fontweight='bold')
+    plt.title(title, size=title_size)
+    plt.xlabel(xlabel, size=xlabel_size); 
+    plt.ylabel(ylabel, size=ylabel_size)
+    plt.xticks(size=xticks_size); plt.yticks(size=yticks_size)
+
+    for index, value in enumerate(top_count.values):
+        s = str('{:,}'.format(value))+ " | " + str(np.round(100*value/count.sum(), 2)) + ' %'
+        plt.text(text_offset, index, s, fontdict={'size': bar_text_size, 
+                                                  'fontweight':'bold', 
+                                                  'color':bar_text_color})

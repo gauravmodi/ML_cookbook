@@ -139,3 +139,22 @@ ax = histogram(df.AmountInUSD, upper=10**6, hist=True, kde=False, bins=50)
 ax.annotate(x_value, xy=(x_value, y_value), xytext=(700000, 80),
             arrowprops=dict(facecolor='black', shrink=0.05));
 
+# Default setting for whole notebook
+import matplotlib as mpl
+mpl.rc('lines', linewidth=2, color='r', markersize=10)
+mpl.rc('axes', titlesize=24, labelsize=20)
+mpl.rc('xtick', labelsize=16)
+mpl.rc('ytick', labelsize=16)
+
+font = {'family' : 'monospace',
+        'weight' : 'bold',
+        'size'   : 'larger'}
+mpl.rc('font', **font)  # pass in the font dict as kwargs
+
+
+## Color paletter
+ ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f58231', 
+  '#911eb4', '#46f0f0', '#f032e6', '#d2f53c', '#fabebe', 
+  '#008080', '#e6beff', '#aa6e28', '#fffac8', '#800000', 
+  '#aaffc3', '#808000', '#ffd8b1', '#000080', '#808080', 
+  '#FFFFFF', '#000000']

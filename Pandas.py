@@ -139,3 +139,9 @@ def add_datepart(df, fldname, drop=True):
 #-------------------------------------------------------------------------------
 from pysqldf import SQLDF; sqldf = SQLDF(globals()); q = getattr(sqldf, 'execute')
 import warnings; warnings.filterwarnings('ignore')
+
+# Select or exlcude particular data type of columns in Dataframe
+melb_numeric_predictors = melb_predictors.select_dtypes(exclude=['object'])
+
+# Aggregation of same column
+df.groupby(['RateCodeID']).agg({'Fare_amount':['mean', 'median']})

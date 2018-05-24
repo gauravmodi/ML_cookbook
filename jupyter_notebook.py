@@ -43,3 +43,7 @@ df.style.applymap(over_10M, subset=['AmountInUSD'])\
 # Tableau like drag and drop
 from pivottablejs import pivot_ui
 pivot_ui(df)
+
+
+temp_time = df[(df.lpep_pickup_datetime.dt.hour == hour_low) | (df.lpep_pickup_datetime.dt.hour <= hour) &\
+            (df.lpep_pickup_datetime.dt.minute >= minute_low) & (df.lpep_pickup_datetime.dt.minute <= minute)]
